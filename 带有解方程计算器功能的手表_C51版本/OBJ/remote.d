@@ -1,0 +1,10 @@
+..\obj\remote.o: ..\HARDWARE\REMOTE\remote.c
+..\obj\remote.o: ..\HARDWARE\REMOTE\remote.h
+..\obj\remote.o: ..\SYSTEM\sys\sys.h
+..\obj\remote.o: ..\SYSTEM\sys\stm32f10x.h
+..\obj\remote.o: ..\SYSTEM\sys\core_cm3.h
+..\obj\remote.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\remote.o: ..\SYSTEM\sys\system_stm32f10x.h
+..\obj\remote.o: ..\SYSTEM\delay\delay.h
+..\obj\remote.o: ..\SYSTEM\usart\usart.h
+..\obj\remote.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

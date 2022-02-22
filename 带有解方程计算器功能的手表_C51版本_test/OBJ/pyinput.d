@@ -1,0 +1,11 @@
+..\obj\pyinput.o: ..\T9INPUT\pyinput.c
+..\obj\pyinput.o: ..\SYSTEM\sys\sys.h
+..\obj\pyinput.o: ..\SYSTEM\sys\stm32f10x.h
+..\obj\pyinput.o: ..\SYSTEM\sys\core_cm3.h
+..\obj\pyinput.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\pyinput.o: ..\SYSTEM\sys\system_stm32f10x.h
+..\obj\pyinput.o: ..\SYSTEM\usart\usart.h
+..\obj\pyinput.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\pyinput.o: ..\T9INPUT\pymb.h
+..\obj\pyinput.o: ..\T9INPUT\pyinput.h
+..\obj\pyinput.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

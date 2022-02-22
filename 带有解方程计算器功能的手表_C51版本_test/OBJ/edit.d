@@ -1,0 +1,15 @@
+..\obj\edit.o: ..\GUI\edit.c
+..\obj\edit.o: ..\GUI\edit.h
+..\obj\edit.o: ..\GUI\guix.h
+..\obj\edit.o: ..\SYSTEM\sys\sys.h
+..\obj\edit.o: ..\SYSTEM\sys\stm32f10x.h
+..\obj\edit.o: ..\SYSTEM\sys\core_cm3.h
+..\obj\edit.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\edit.o: ..\SYSTEM\sys\system_stm32f10x.h
+..\obj\edit.o: ..\MALLOC\malloc.h
+..\obj\edit.o: ..\HARDWARE\LCD\lcd.h
+..\obj\edit.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\edit.o: ..\SYSTEM\usart\usart.h
+..\obj\edit.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\edit.o: ..\SYSTEM\delay\delay.h
+..\obj\edit.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

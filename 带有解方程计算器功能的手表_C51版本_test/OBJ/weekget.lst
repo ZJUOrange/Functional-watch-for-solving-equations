@@ -1,0 +1,151 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             My_Function2,CODE,READONLY ; Õâ
+                                                            Ò»ÐÐ±ØÒªµÄ³ýÁËMy_Fu
+                                                            nction¿ÉÒÔ×Ô¼ºÈ¡ÃûÒ
+                                                            ÔÍâ£¬ÆäËûµÄ¶¼ÊÇÄ£°å
+                                                            
+    2 00000000                 EXPORT           weekget     ; ÓëÔÚcÎÄ¼þÖÐ¶¨ÒåµÄ
+                                                            weekgetº¯Êý¹ØÁªÆðÀ´
+                                                            
+    3 00000000                 PRESERVE8
+    4 00000000         weekget
+    5 00000000 E92D 4FF0       STMFD            SP!,{R4-R11,R14} 
+                                                            ;±£»¤¼Ä´æÆ÷µÄÊý¾Ý
+    6 00000004 2901            CMP              R1,#1       ;month == 1
+    7 00000006 D002            BEQ              mon12
+    8 00000008 2902            CMP              R1,#2       ;month == 2
+    9 0000000A D000            BEQ              mon12
+   10 0000000C         ;MOV R3,#0     ;R3ÊÇc
+   11 0000000C         ;MOV R4,#0     ;R4ÊÇy
+   12 0000000C E003            B                calcweek
+   13 0000000E         
+   14 0000000E         mon12
+   15 0000000E F101 010C       ADD              R1,R1,#12
+   16 00000012 F1A0 0001       SUB              R0,R0,#1
+   17 00000016         
+   18 00000016         calcweek
+   19 00000016 F04F 0A64       MOV              R10,#100
+   20 0000001A FBB0 F3FA       UDIV             R3,R0,R10   ;R3ÊÇc
+   21 0000001E FB03 F50A       MUL              R5,R3,R10   ;R5ÊÇtemp,ÖÐ¼ä¼ÆËãÖ
+                                                            µ
+   22 00000022         ;SUB R4,R0,R5    ;R4ÊÇy
+   23 00000022 EBA0 0905       SUB              R9,R0,R5    ;R4ÊÇy
+   24 00000026 F101 0101       ADD              R1,R1,#1    ;R1=m+1
+   25 0000002A F04F 0A1A       MOV              R10,#26
+   26 0000002E FB01 F10A       MUL              R1,R1,R10   ;R1=26*(m+1)
+   27 00000032 F04F 0A0A       MOV              R10,#10
+   28 00000036 FBB1 F1FA       UDIV             R1,R1,R10   ;R1=26*(m+1)/10
+   29 0000003A 4411            ADD              R1,R1,R2    ;R1=26*(m+1)/10+d
+   30 0000003C F1A1 0101       SUB              R1,R1,#1    ;R1=26*(m+1)/10+d-1
+                                                            
+   31 00000040         ;ADD R1,R1,R4,LSR #2   ;R1=y/4+26*(m+1)/10+d-1
+   32 00000040 EB01 0199       ADD              R1,R1,R9,LSR #2 ;R1=y/4+26*(m+1
+                                                            )/10+d-1
+   33 00000044         ;ADD R1,R1,R4    ;R1=y+y/4+26*(m+1)/10+d-1
+   34 00000044 4449            ADD              R1,R1,R9    ;R1=y+y/4+26*(m+1)/
+                                                            10+d-1
+   35 00000046 EBA1 0143       SUB              R1,R1,R3,LSL #1 ;R1=-2*c+y/4+26
+                                                            *(m+1)/10+d-1
+   36 0000004A EB01 0193       ADD              R1,R1,R3,LSR #2 ;R1=c/4-2*c+y+y
+                                                            /4+26*(m+1)/10+d-1
+   37 0000004E         ;R1ÊÇW
+   38 0000004E 2900            CMP              R1,#0
+   39 00000050 DA14            BGE              week
+   40 00000052 F04F 0A00       MOV              R10,#0
+   41 00000056 EBAA 0001       SUB              R0,R10,R1   ;R0=-W
+   42 0000005A F04F 0A07       MOV              R10,#7
+   43 0000005E FBB0 F0FA       UDIV             R0,R0,R10   ;R0=-W/7
+   44 00000062 F100 0001       ADD              R0,R0,#1    ;R0=-W/7+1
+   45 00000066 FB00 F00A       MUL              R0,R0,R10   ;R0=(-W/7+1)*7
+   46 0000006A EBA0 0001       SUB              R0,R0,R1    ;R0=W+(-W/7+1)*7
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   47 0000006E FBB0 F5FA       UDIV             R5,R0,R10   ;R5ÊÇtemp
+   48 00000072 FB05 F50A       MUL              R5,R5,R10
+   49 00000076 EBA0 0005       SUB              R0,R0,R5
+   50 0000007A E008            B                week_end
+   51 0000007C         week
+   52 0000007C F04F 0A07       MOV              R10,#7
+   53 00000080 FBB1 F5FA       UDIV             R5,R1,R10   ;R5ÊÇtemp
+   54 00000084 FB05 F50A       MUL              R5,R5,R10
+   55 00000088 EBA1 0005       SUB              R0,R1,R5
+   56 0000008C E7FF            B                week_end
+   57 0000008E         
+   58 0000008E         week_end
+   59 0000008E E8BD 4FF0       LDMFD            SP!,{R4-R11,R14}
+   60 00000092 46F7            MOV              PC,LR
+   61 00000094         
+   62 00000094                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
+ork --depend=..\obj\weekget.d -o..\obj\weekget.o -I.\RTE\_Target_1 -IC:\Users\1
+2695\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include -IC:\Keil_
+v5\ARM\CMSIS\Include --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VER
+SION SETA 529" --predefine="STM32F10X_HD SETA 1" --list=..\obj\weekget.lst ..\T
+IME\weekget.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+My_Function2 00000000
+
+Symbol: My_Function2
+   Definitions
+      At line 1 in file ..\TIME\weekget.s
+   Uses
+      None
+Comment: My_Function2 unused
+calcweek 00000016
+
+Symbol: calcweek
+   Definitions
+      At line 18 in file ..\TIME\weekget.s
+   Uses
+      At line 12 in file ..\TIME\weekget.s
+Comment: calcweek used once
+mon12 0000000E
+
+Symbol: mon12
+   Definitions
+      At line 14 in file ..\TIME\weekget.s
+   Uses
+      At line 7 in file ..\TIME\weekget.s
+      At line 9 in file ..\TIME\weekget.s
+
+week 0000007C
+
+Symbol: week
+   Definitions
+      At line 51 in file ..\TIME\weekget.s
+   Uses
+      At line 39 in file ..\TIME\weekget.s
+Comment: week used once
+week_end 0000008E
+
+Symbol: week_end
+   Definitions
+      At line 58 in file ..\TIME\weekget.s
+   Uses
+      At line 50 in file ..\TIME\weekget.s
+      At line 56 in file ..\TIME\weekget.s
+
+weekget 00000000
+
+Symbol: weekget
+   Definitions
+      At line 4 in file ..\TIME\weekget.s
+   Uses
+      At line 2 in file ..\TIME\weekget.s
+Comment: weekget used once
+6 symbols
+339 symbols in table
